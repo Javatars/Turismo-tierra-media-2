@@ -6,7 +6,7 @@ public class Usuario {
 	private double tiempoDisponible;
 	private TipoAtraccion tipoAtraccionPreferida;
 	private Itinerario itinerario;
-	
+
 	public Usuario(String nombre, int presupuesto, double tiempoDisponible, TipoAtraccion tipoAtraccionPreferida) {
 		super();
 		this.nombre = nombre;
@@ -15,39 +15,45 @@ public class Usuario {
 		this.tipoAtraccionPreferida = tipoAtraccionPreferida;
 		this.itinerario = new Itinerario();
 	}
-	
+
 	public String getNombre() {
 		return this.nombre;
 	}
-	
+
 	public TipoAtraccion getTipoAtraccionPreferida() {
 		return this.tipoAtraccionPreferida;
 	}
-	
+
 	public boolean puedeComprar(Sugerible sugerencia) {
-		return this.presupuesto >= sugerencia.costoTotal() && this.tiempoDisponible >= sugerencia.tiempoTotal();
+		return this.presupuesto >= sugerencia.costoTotal() && Double.doubleToLongBits(this.tiempoDisponible) >= Double.doubleToLongBits(sugerencia.tiempoTotal())
+				&& sugerencia.hayCupo() && !this.itinerario.incluyeAtraccion(sugerencia);
 	}
 
 	public void disminuirPresupuesto(int presupuesto) {
 		this.presupuesto -= presupuesto;
 	}
 
-	public void disminuirTiempoDisponible(double tiempoDisponible) {
-		this.tiempoDisponible = tiempoDisponible;
+	public void disminuirTiempoDisponible(double tiempo) {
+		this.tiempoDisponible -= tiempo;
 	}
-	
-	public Itinerario getItinerario() {
-		return this.itinerario;
+
+	public int getPresupuesto() {
+		return presupuesto;
+	}
+
+	public double getTiempoDisponible() {
+		return tiempoDisponible;
+	}
+
+	public void comprar(Sugerible sugerencia) {
+		this.itinerario.agregarSugerencia(sugerencia);
+		this.disminuirPresupuesto(sugerencia.costoTotal());
+		this.disminuirTiempoDisponible(sugerencia.tiempoTotal());
+		sugerencia.disminuirCupo();
 	}
 
 	@Override
 	public String toString() {
-		String compras = "";
-		for(Sugerible unaSugerencia : this.itinerario.getSugerenciasAceptadas()) {
-			compras += "	" + unaSugerencia.getNombre() + "/n";
-		}
-		return "Nombre usuario: " + this.nombre + "/n" + "Tipo atraccion preferida: " + this.tipoAtraccionPreferida + "/n" 
-				+ "Compras realizadas: " + compras + "Total a pagar: " + this.itinerario.costoTotal() + "/n"
-				+ "Tiempo necesario para la salida: " + this.itinerario.horasNecesarias();
+		return this.itinerario.resumen();
 	}
 }

@@ -9,4 +9,6 @@ public interface Sugerible {
 	public boolean esPromocion();
 	public String getNombre();
 	public String toString();
+	public String resumen();
+	public boolean esOcontiene(Sugerible sugerencia);
 }

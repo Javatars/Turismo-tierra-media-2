@@ -1,5 +1,7 @@
 package model;
 
+import java.text.DecimalFormat;
+
 public class Atraccion implements Sugerible{
 	private String nombre;
 	private int costo;
@@ -15,38 +17,60 @@ public class Atraccion implements Sugerible{
 		this.tipo = tipo;
 	}
 	
+	@Override
 	public String getNombre() {
 		return nombre;
 	}
 
+	@Override
 	public void disminuirCupo() {
 		this.cupo--;
 	}
 
+	@Override
 	public int costoTotal() {
 		return this.costo;
 	}
 
+	@Override
 	public double tiempoTotal() {
 		return this.tiempo;
 	}
 
+	@Override
 	public boolean hayCupo() {
 		return this.cupo > 0;
 	}
 
+	@Override
 	public TipoAtraccion getTipo() {
 		return this.tipo;
 	}
 
+	@Override
 	public boolean esPromocion() {
 		return false;
 	}
 
 	@Override
+	public boolean esOcontiene(Sugerible sugerencia) {
+		return this.equals(sugerencia);
+	}
+
+	@Override
 	public String toString() {
-		return "La atraccion " + nombre + ", cuesta " + costo + " monedas, se necesita un tiempo de " + tiempo + 
-				" horas para realizarlo, y el tipo es " + tipo;
+		DecimalFormat formato = new DecimalFormat();
+		formato.setMaximumFractionDigits(2);
+		return "La atraccion " + this.nombre + ": cuesta " + this.costo + " monedas y tiene un tiempo de " 
+				+ formato.format(this.tiempo) + " horas, y el tipo es " + this.tipo;
+	}
+
+	@Override
+	public String resumen() {
+		DecimalFormat formato = new DecimalFormat();
+		formato.setMaximumFractionDigits(2);
+		return  "	" + this.nombre + ": cuesta " + this.costo + " monedas y tiene un tiempo de " 
+				+ formato.format(this.tiempo) + " horas.";
 	}
 
 	@Override
