@@ -3,20 +3,20 @@ CREATE TABLE "Tipo_Atraccion" (
 	PRIMARY KEY("nombre")
 );
 
-CREATE TABLE "Itinerario" (
-	"id"	INTEGER NOT NULL,
-	PRIMARY KEY("id" AUTOINCREMENT)
-);
-
 CREATE TABLE "Usuario" (
 	"nombre"	TEXT NOT NULL,
 	"presupuesto"	INTEGER NOT NULL,
 	"tiempo_disponible"	REAL NOT NULL,
 	"tipo_atraccion"	TEXT NOT NULL,
-	"itinerario"	INTEGER NOT NULL,
-	FOREIGN KEY("itinerario") REFERENCES "Itinerario"("id"),
 	FOREIGN KEY("tipo_atraccion") REFERENCES "Tipo_Atraccion"("nombre"),
 	PRIMARY KEY("nombre")
+);
+
+CREATE TABLE "Itinerario" (
+	"id"	INTEGER NOT NULL,
+	"usuario"	TEXT NOT NULL,
+	FOREIGN KEY("usuario") REFERENCES "Usuario"("nombre"),
+	PRIMARY KEY("id" AUTOINCREMENT)
 );
 
 CREATE TABLE "Atraccion" (
