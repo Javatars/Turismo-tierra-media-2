@@ -12,13 +12,6 @@ CREATE TABLE "Usuario" (
 	PRIMARY KEY("nombre")
 );
 
-CREATE TABLE "Itinerario" (
-	"id"	INTEGER NOT NULL,
-	"usuario"	TEXT NOT NULL,
-	FOREIGN KEY("usuario") REFERENCES "Usuario"("nombre"),
-	PRIMARY KEY("id" AUTOINCREMENT)
-);
-
 CREATE TABLE "Atraccion" (
 	"nombre"	TEXT NOT NULL,
 	"costo"	INTEGER NOT NULL,
@@ -37,19 +30,19 @@ CREATE TABLE "Promocion" (
 );
 
 CREATE TABLE "Tiene_Atracciones" (
-	"id_itinerario"	INTEGER NOT NULL,
+	"usuario"	TEXT NOT NULL,
 	"atraccion"	TEXT NOT NULL,
 	FOREIGN KEY("atraccion") REFERENCES "Atraccion"("nombre"),
-	FOREIGN KEY("id_itinerario") REFERENCES "Itinerario"("id"),
-	PRIMARY KEY("id_itinerario","atraccion")
+	FOREIGN KEY("usuario") REFERENCES "Usuario"("nombre"),
+	PRIMARY KEY("usuario","atraccion")
 );
 
 CREATE TABLE "Tiene_Promociones" (
-	"id_itinerario"	INTEGER NOT NULL,
+	"usuario"	TEXT NOT NULL,
 	"promocion"	TEXT NOT NULL,
 	FOREIGN KEY("promocion") REFERENCES "Promocion"("nombre"),
-	FOREIGN KEY("id_itinerario") REFERENCES "Itinerario"("id"),
-	PRIMARY KEY("id_itinerario","promocion")
+	FOREIGN KEY("usuario") REFERENCES "Usuario"("nombre"),
+	PRIMARY KEY("usuario","promocion")
 );
 
 CREATE TABLE "Lo_Puede_Contener" (
