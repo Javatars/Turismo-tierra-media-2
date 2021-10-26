@@ -13,7 +13,6 @@ import model.Sugerible;
 import model.Usuario;
 import dao.factory.DAOFactory;
 import dao.interfaces.AtraccionDAO;
-import dao.interfaces.ItinerarioDAO;
 import dao.interfaces.PromocionDAO;
 import dao.interfaces.UsuarioDAO;
 import jdbc.ConnectionProvider;
@@ -47,7 +46,6 @@ public class App {
 
 	private static void ejecutar() {
 		UsuarioDAO usuarioDao = DAOFactory.getUsuarioDAO(); 
-		ItinerarioDAO itinerarioDao = DAOFactory.getItinerarioDAO();
 		AtraccionDAO atraccionDao = DAOFactory.getAtraccionDAO();
 		DecimalFormat formato = new DecimalFormat();
 		formato.setMaximumFractionDigits(2);
@@ -66,10 +64,9 @@ public class App {
 		}
 		System.out.println("Se actualizan los datos en la DB");
 		for(Usuario unUsuario : usuarios) {
-			int rowsUsuario = usuarioDao.update(unUsuario);
-			int rowsItinerario = itinerarioDao.insert(unUsuario.getItinerario());
+			usuarioDao.update(unUsuario);
 		}for(Atraccion unaAtraccion : atracciones) {
-			int rowsAtraccion = atraccionDao.update(unaAtraccion);
+			atraccionDao.update(unaAtraccion);
 		}
 		System.out.println("Fin del programa");
 	}

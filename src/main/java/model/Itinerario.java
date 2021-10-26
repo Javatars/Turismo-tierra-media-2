@@ -1,29 +1,17 @@
 package model;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Itinerario {
 	private List<Sugerible> sugerenciasAceptadas;	
 	private Usuario usuario;
-	private int id;
 
-	public Itinerario(Usuario usuario) {
+	public Itinerario(Usuario usuario, List<Sugerible> sugerencias) {
 		this.usuario = usuario;
-		this.sugerenciasAceptadas = new ArrayList<Sugerible>();
+		this.sugerenciasAceptadas = sugerencias;
 	}
-
-	public Itinerario(int id, Usuario usuario) {
-		this.id = id;
-		this.usuario = usuario;
-		this.sugerenciasAceptadas = new ArrayList<Sugerible>();
-	}
-
-	public int getId() {
-		return id;
-	}
-
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -44,6 +32,10 @@ public class Itinerario {
 		for (Sugerible unaSugerencia : this.sugerenciasAceptadas)
 			costo += unaSugerencia.costoTotal();
 		return costo;
+	}
+
+	public void agregarSugerencias(List<Sugerible> sugerencias) {
+		this.sugerenciasAceptadas.addAll(sugerencias);
 	}
 
 	public void agregarSugerencia(Sugerible sugerencia) {

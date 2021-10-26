@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public class Usuario {
 	private String nombre;
 	private int presupuesto;
@@ -7,13 +9,13 @@ public class Usuario {
 	private TipoAtraccion tipoAtraccionPreferida;
 	private Itinerario itinerario;
 
-	public Usuario(String nombre, int presupuesto, double tiempoDisponible, TipoAtraccion tipoAtraccionPreferida) {
+	public Usuario(String nombre, int presupuesto, double tiempoDisponible, TipoAtraccion tipoAtraccionPreferida,List<Sugerible> sugerenciasAceptadas) {
 		super();
 		this.nombre = nombre;
 		this.presupuesto = presupuesto;
 		this.tiempoDisponible = tiempoDisponible;
 		this.tipoAtraccionPreferida = tipoAtraccionPreferida;
-		this.itinerario = new Itinerario(this);
+		this.itinerario = new Itinerario(this, sugerenciasAceptadas);
 	}
 
 	public String getNombre() {

@@ -109,4 +109,50 @@ public class PromocionDAOImpl implements PromocionDAO {
 		return 0;
 	}
 
+	@Override
+	public List<Promocion> findPromocionesByNombreUsuario(String nombreUsuario) {
+		try {
+			String sql = "SELECT p.* FROM Tiene_Promociones tp JOIN Promocion p ON tp.promocion = p.nombre WHERE tp.usuario = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, nombreUsuario);
+			ResultSet resultados = statement.executeQuery();
+			List<Promocion> promociones = new ArrayList<Promocion>();
+			while (resultados.next()) {
+				promociones.add(toPromocion(resultados));
+			}
+			return promociones;
+		} catch (Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
+	}
+
+	private Promocion toPromocion(ResultSet resultados) {
+		try {
+			String sql1 = "SELECT pa.*,p.tipo_atraccion FROM Promocion_Absoluta pa JOIN Promocion p ON pa.nombre = ?";
+			String sql2 = "SELECT pp.*,p.tipo_atraccion FROM Promocion_Porcentual pp JOIN Promocion p ON pp.nombre = ?";
+			String sql3 = "SELECT pab.*,p.tipo_atraccion FROM Promocion_AxB pab JOIN Promocion p ON pab.nombre = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql1);
+			statement.setString(1, resultados.getString(1));
+			ResultSet resultados1 = statement.executeQuery();
+			statement = conn.prepareStatement(sql2);
+			statement.setString(1, resultados.getString(1));
+			ResultSet resultados2 = statement.executeQuery();
+			statement = conn.prepareStatement(sql3);
+			statement.setString(1, resultados.getString(1));
+			ResultSet resultados3 = statement.executeQuery();
+			Promocion promocion = null;
+			if (resultados1.next()) 
+				promocion = toPromocionAbsoluta(resultados1);
+			if (resultados2.next()) 
+				promocion = toPromocionPorcentual(resultados2);
+			if (resultados3.next()) 
+				promocion = toPromocionAxB(resultados3);
+			return promocion;
+		} catch (Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
+	}
+
 }

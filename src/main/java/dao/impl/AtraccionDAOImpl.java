@@ -99,7 +99,7 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, t.getCupo());
 			statement.setString(2, t.getNombre());
-			int rows = statement.executeUpdate(sql);
+			int rows = statement.executeUpdate();
 			//Fin de la transaccion
 			return rows;
 		}catch(Exception e) {
@@ -111,5 +111,26 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 	public int delete(Atraccion t) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<Atraccion> findAtraccionesByNombreUsuario(String nombreUsuario) {
+		try {
+			String sql = "SELECT a.* FROM Tiene_Atracciones ta JOIN Atraccion a ON ta.atraccion = a.nombre WHERE ta.usuario = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, nombreUsuario);
+			ResultSet resultados = statement.executeQuery();
+
+			List<Atraccion> atracciones = new ArrayList<Atraccion>();
+			
+			while (resultados.next()) {
+				atracciones.add(toAtraccion(resultados));
+			}
+			
+			return atracciones;
+		} catch (Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
 	}
 }
