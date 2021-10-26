@@ -15,7 +15,7 @@ public class Usuario {
 		this.presupuesto = presupuesto;
 		this.tiempoDisponible = tiempoDisponible;
 		this.tipoAtraccionPreferida = tipoAtraccionPreferida;
-		this.itinerario = new Itinerario(this, sugerenciasAceptadas);
+		this.itinerario = new Itinerario(sugerenciasAceptadas);
 	}
 
 	public String getNombre() {

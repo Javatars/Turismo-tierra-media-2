@@ -5,15 +5,9 @@ import java.util.List;
 
 public class Itinerario {
 	private List<Sugerible> sugerenciasAceptadas;	
-	private Usuario usuario;
 
-	public Itinerario(Usuario usuario, List<Sugerible> sugerencias) {
-		this.usuario = usuario;
+	public Itinerario(List<Sugerible> sugerencias) {
 		this.sugerenciasAceptadas = sugerencias;
-	}
-	
-	public Usuario getUsuario() {
-		return usuario;
 	}
 
 	public List<Sugerible> getSugerenciasAceptadas(){
