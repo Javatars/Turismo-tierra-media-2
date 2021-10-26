@@ -98,19 +98,57 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			for(String nombreAtraccion : nombresAtracciones) {
-				statement.setString(1, nombreUsuario);
-				statement.setString(2, nombreAtraccion);
-				statement.executeUpdate();
+				if(!atraccionYaIncluida(nombreAtraccion,nombreUsuario)){
+					statement.setString(1, nombreUsuario);
+					statement.setString(2, nombreAtraccion);
+					statement.executeUpdate();
+				}
+				
 			}
 			sql = "INSERT INTO Tiene_Promociones(usuario,promocion) VALUES (?,?)";
 			statement = conn.prepareStatement(sql);
 			for(String nombrePromocion : nombresPromociones) {
-				statement.setString(1, nombreUsuario);
-				statement.setString(2, nombrePromocion);
-				statement.executeUpdate();
+				if(!promocionYaIncluida(nombrePromocion,nombreUsuario)) {
+					statement.setString(1, nombreUsuario);
+					statement.setString(2, nombrePromocion);
+					statement.executeUpdate();
+				}
 			}
-			
 		}catch(Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
+	}
+
+	private boolean promocionYaIncluida(String nombrePromocion, String nombreUsuario) {
+		boolean estaIncluida = false;
+		try {
+			String sql = "SELECT * FROM Tiene_Promociones WHERE usuario = ? and promocion = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, nombreUsuario);
+			statement.setString(2, nombrePromocion);
+			ResultSet resultados = statement.executeQuery();
+			if(resultados.next())
+				estaIncluida = true;
+			return estaIncluida;
+		}catch (Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
+	}
+
+	private boolean atraccionYaIncluida(String nombreAtraccion,String nombreUsuario) {
+		boolean estaIncluida = false;
+		try {
+			String sql = "SELECT * FROM Tiene_Atracciones WHERE usuario = ? and atraccion = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, nombreUsuario);
+			statement.setString(2, nombreAtraccion);
+			ResultSet resultados = statement.executeQuery();
+			if(resultados.next())
+				estaIncluida = true;
+			return estaIncluida;
+		}catch (Exception e) {
 			throw new SQLExceptionCreated(e);
 		}
 	}
