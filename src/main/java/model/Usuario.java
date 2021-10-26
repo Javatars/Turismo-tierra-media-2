@@ -13,7 +13,7 @@ public class Usuario {
 		this.presupuesto = presupuesto;
 		this.tiempoDisponible = tiempoDisponible;
 		this.tipoAtraccionPreferida = tipoAtraccionPreferida;
-		this.itinerario = new Itinerario();
+		this.itinerario = new Itinerario(this);
 	}
 
 	public String getNombre() {
@@ -43,6 +43,10 @@ public class Usuario {
 
 	public double getTiempoDisponible() {
 		return tiempoDisponible;
+	}
+
+	public Itinerario getItinerario() {
+		return itinerario;
 	}
 
 	public void comprar(Sugerible sugerencia) {

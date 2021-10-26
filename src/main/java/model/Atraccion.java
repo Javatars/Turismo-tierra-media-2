@@ -16,6 +16,10 @@ public class Atraccion implements Sugerible{
 		this.cupo = cupo;
 		this.tipo = tipo;
 	}
+
+	public int getCupo() {
+		return cupo;
+	}
 	
 	@Override
 	public String getNombre() {

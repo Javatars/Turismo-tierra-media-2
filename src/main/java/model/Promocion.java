@@ -2,13 +2,14 @@ package model;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Promocion implements Sugerible {
 	protected String nombre;
 	protected TipoAtraccion tipoAtraccion;
-	protected ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
+	protected List<Atraccion> atracciones = new ArrayList<Atraccion>();
 
-	public Promocion(String nombre, TipoAtraccion tipoAtraccion, ArrayList<Atraccion> atracciones) {
+	public Promocion(String nombre, TipoAtraccion tipoAtraccion, List<Atraccion> atracciones) {
 		super();
 		this.nombre = nombre;
 		this.tipoAtraccion = tipoAtraccion;

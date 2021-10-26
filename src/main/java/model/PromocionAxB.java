@@ -1,15 +1,14 @@
 package model;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.List;
 
 public class PromocionAxB extends Promocion {
 	private Atraccion atraccionGratis;
 
-	public PromocionAxB(String nombre, TipoAtraccion tipoAtraccion, ArrayList<Atraccion> atracciones, Atraccion atraccion) {
+	public PromocionAxB(String nombre, TipoAtraccion tipoAtraccion, List<Atraccion> atracciones, Atraccion atraccion) {
 		super(nombre, tipoAtraccion, atracciones);
 		this.atraccionGratis = atraccion;
-		this.atracciones.add(atraccion);
 	}
 
 	@Override

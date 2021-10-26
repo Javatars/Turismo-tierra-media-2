@@ -1,12 +1,12 @@
 package model;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.List;
 
 public class PromocionAbsoluta extends Promocion {
 	private int costoFinal;
 	
-	public PromocionAbsoluta(String nombre, TipoAtraccion tipoAtraccion, ArrayList<Atraccion> atracciones, int costo) {
+	public PromocionAbsoluta(String nombre, TipoAtraccion tipoAtraccion, List<Atraccion> atracciones, int costo) {
 		super(nombre, tipoAtraccion, atracciones);
 		this.costoFinal = costo;
 	}

@@ -2,12 +2,34 @@ package model;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Itinerario {
-	private ArrayList<Sugerible> sugerenciasAceptadas;	
+	private List<Sugerible> sugerenciasAceptadas;	
+	private Usuario usuario;
+	private int id;
 
-	public Itinerario() {
+	public Itinerario(Usuario usuario) {
+		this.usuario = usuario;
 		this.sugerenciasAceptadas = new ArrayList<Sugerible>();
+	}
+
+	public Itinerario(int id, Usuario usuario) {
+		this.id = id;
+		this.usuario = usuario;
+		this.sugerenciasAceptadas = new ArrayList<Sugerible>();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public List<Sugerible> getSugerenciasAceptadas(){
+		return sugerenciasAceptadas;
 	}
 
 	public double horasNecesarias() {

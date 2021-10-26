@@ -1,12 +1,12 @@
 package model;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.List;
 
 public class PromocionPorcentual extends Promocion {
 	private double porcentajeDescuento;
 	
-	public PromocionPorcentual(String nombre, TipoAtraccion tipo, ArrayList<Atraccion> atracciones, double porcentajeDescuento) {
+	public PromocionPorcentual(String nombre, TipoAtraccion tipo, List<Atraccion> atracciones, double porcentajeDescuento) {
 		super(nombre, tipo, atracciones);
 		this.porcentajeDescuento = porcentajeDescuento;
 	}
