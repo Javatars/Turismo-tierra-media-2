@@ -51,8 +51,8 @@ public class UsuariosTests {
 		promocion2 = new PromocionPorcentual("aventura2", TipoAtraccion.AVENTURA, atracciones2, 0.3);
 		promocion3 = new PromocionAxB("aventura3", TipoAtraccion.AVENTURA, atracciones3,(Atraccion) atraccion2);
 		promocion4 = new PromocionAbsoluta("aventura4", TipoAtraccion.AVENTURA, atracciones1, 5);
-		usuario1 = new Usuario("Eowyn", 100, 100, TipoAtraccion.AVENTURA);
-		usuario2 = new Usuario("Sauron", 10, 10, TipoAtraccion.AVENTURA);
+		usuario1 = new Usuario("Eowyn", 100, 100, TipoAtraccion.AVENTURA, new ArrayList<Sugerible>());
+		usuario2 = new Usuario("Sauron", 10, 10, TipoAtraccion.AVENTURA, new ArrayList<Sugerible>());
 	}
 
 	@After

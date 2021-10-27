@@ -26,10 +26,10 @@ public class ItinerarioTests {
 	Sugerible promocion1;
 	Sugerible promocion2;
 	Sugerible promocion3;
-
+	
 	@Before
 	public void setUp(){
-		itinerario1 = new Itinerario();
+		itinerario1 = new Itinerario(new ArrayList<Sugerible>());
 		atraccion1 = new Atraccion("Eary", 10, 10, 5, TipoAtraccion.PAISAJE);
 		atraccion2 = new Atraccion("Moria", 10, 2, 6, TipoAtraccion.AVENTURA);
 		atraccion3 = new Atraccion("Minas Tirith", 5, 2.5, 25, TipoAtraccion.AVENTURA);

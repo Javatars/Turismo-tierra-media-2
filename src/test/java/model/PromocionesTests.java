@@ -41,8 +41,8 @@ public class PromocionesTests {
 		atracciones3.add(new Atraccion("Minas Tirith", 5, 2.5, 2, TipoAtraccion.AVENTURA));
 		atracciones3.add(new Atraccion("Mordor",25,3,3,TipoAtraccion.AVENTURA));
 
-		u1 = new Usuario("Eowyn", 10, 8, TipoAtraccion.AVENTURA);
-		u2 = new Usuario("Sauron", 10, 8, TipoAtraccion.AVENTURA);
+		u1 = new Usuario("Eowyn", 10, 8, TipoAtraccion.AVENTURA, new ArrayList<Sugerible>());
+		u2 = new Usuario("Sauron", 10, 8, TipoAtraccion.AVENTURA, new ArrayList<Sugerible>());
 
 		promocion1 = new PromocionAbsoluta("aventura", TipoAtraccion.AVENTURA, atracciones, 20);
 		promocion2 = new PromocionPorcentual("aventura 2", TipoAtraccion.AVENTURA, atracciones2, 0.3);
@@ -70,8 +70,8 @@ public class PromocionesTests {
 
 	@Test
 	public void noHayCupo() {
-		u1 = new Usuario("Eowyn", 10, 8, TipoAtraccion.AVENTURA);
-		u2 = new Usuario("Sauron", 10, 8, TipoAtraccion.AVENTURA);
+		u1 = new Usuario("Eowyn", 10, 8, TipoAtraccion.AVENTURA, new ArrayList<Sugerible>());
+		u2 = new Usuario("Sauron", 10, 8, TipoAtraccion.AVENTURA, new ArrayList<Sugerible>());
 
 		u1.comprar(promocion1);
 		u2.comprar(promocion1);

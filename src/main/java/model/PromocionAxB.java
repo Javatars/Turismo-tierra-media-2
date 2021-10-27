@@ -13,7 +13,7 @@ public class PromocionAxB extends Promocion {
 
 	@Override
 	public int costoTotal() {
-		return super.costoTotal() - this.atraccionGratis.costoTotal();
+		return super.costoTotal();
 	}
 
 	@Override
@@ -21,27 +21,39 @@ public class PromocionAxB extends Promocion {
 		DecimalFormat formato = new DecimalFormat();
 		formato.setMaximumFractionDigits(2);
 		String nombresAtracciones = "";
-		for(int i=0; i < atracciones.size() - 1; i++) {
-			if(i + 1 == atracciones.size() - 1) nombresAtracciones += atracciones.get(i).getNombre();
-			else nombresAtracciones += atracciones.get(i).getNombre() + ",";
+		for (int i = 0; i < atracciones.size() - 1; i++) {
+			if (i + 1 == atracciones.size() - 1)
+				nombresAtracciones += atracciones.get(i).getNombre();
+			else
+				nombresAtracciones += atracciones.get(i).getNombre() + ",";
 		}
-		return "La promocion " + this.nombre + ", es " + this.tipoAtraccion + ", cuesta " + this.costoTotal() + " monedas, se necesita un tiempo de " 
-				+ formato.format(this.tiempoTotal()) + " horas para realizarlo, incluye las siguientes atracciones " + nombresAtracciones
-				+ " y tiene la atraccion "+ this.atraccionGratis.getNombre() + " gratis";
+		return "La promocion " + this.nombre + ", es " + this.tipoAtraccion + ", cuesta " + this.costoTotal()
+				+ " monedas, se necesita un tiempo de " + formato.format(this.tiempoTotal())
+				+ " horas para realizarlo, incluye las siguientes atracciones " + nombresAtracciones
+				+ " y tiene la atraccion " + this.atraccionGratis.getNombre() + " gratis";
 	}
-	
+
 	@Override
 	public String resumen() {
 		DecimalFormat formato = new DecimalFormat();
 		formato.setMaximumFractionDigits(2);
 		String resumen = "";
-		resumen += "	" +  this.nombre + "[" + "\n";
+		resumen += "	" + this.nombre + "[" + "\n";
 		for (int j = 0; j < this.atracciones.size() - 1; j++)
 			resumen += "	" + this.atracciones.get(j).resumen() + "\n";
 		resumen += "		" + this.atraccionGratis.getNombre() + ": es gratis y tiene un tiempo de "
 				+ formato.format(this.atraccionGratis.tiempoTotal()) + " horas." + "\n";
-		resumen += "	]: el pack cuesta " + this.costoTotal() + " monedas y tiene un tiempo de " 
+		resumen += "	]: el pack cuesta " + this.costoTotal() + " monedas y tiene un tiempo de "
 				+ formato.format(this.tiempoTotal()) + " horas." + "\n";
 		return resumen;
+	}
+
+	@Override
+	public double tiempoTotal() {
+		double tiempo = 0;
+		for (Atraccion unaAtraccion : atracciones)
+			tiempo += unaAtraccion.tiempoTotal();
+		tiempo += atraccionGratis.tiempoTotal();
+		return tiempo;
 	}
 }
