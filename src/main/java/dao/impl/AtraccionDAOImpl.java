@@ -79,15 +79,21 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 	}
 
 	@Override
-	public int countAll() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int insert(Atraccion t) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			String sql = "INSERT INTO Atraccion(nombre,costo,cupo,tiempo,tipo_atraccion) VALUES (?,?,?,?,?)";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, t.getNombre());
+			statement.setInt(2, t.costoTotal());
+			statement.setInt(3, t.getCupo());
+			statement.setDouble(4, t.tiempoTotal());
+			statement.setString(5, t.getTipo().name());
+			int rows = statement.executeUpdate();
+			return rows;
+		} catch (Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
 	}
 
 	@Override
@@ -95,12 +101,10 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 		try{
 			String sql = "UPDATE Atraccion SET cupo = ? WHERE nombre = ?";
 			Connection conn = ConnectionProvider.getConnection();
-			//Comenzar transaccion
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, t.getCupo());
 			statement.setString(2, t.getNombre());
 			int rows = statement.executeUpdate();
-			//Fin de la transaccion
 			return rows;
 		}catch(Exception e) {
 			throw new SQLExceptionCreated(e);
@@ -109,8 +113,16 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 
 	@Override
 	public int delete(Atraccion t) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			String sql = "DELETE FROM Atraccion WHERE nombre = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, t.getNombre());
+			int rows = statement.executeUpdate();
+			return rows;
+		} catch (Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
 	}
 
 	@Override

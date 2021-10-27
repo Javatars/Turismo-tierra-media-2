@@ -3,6 +3,7 @@ package dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,14 +56,21 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		}
 	}
 
-	public int countAll() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	@Override
 	public int insert(Usuario t) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			String sql = "INSERT INTO Usuario(nombre,presupuesto,tiempo_disponible,tipo_atraccion) VALUES (?,?,?,?)";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, t.getNombre());
+			statement.setInt(2, t.getPresupuesto());
+			statement.setDouble(3, t.getTiempoDisponible());
+			statement.setString(3, t.getTipoAtraccionPreferida().name());
+			int rows = statement.executeUpdate();
+			return rows;
+		} catch (Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
 	}
 
 	@Override
@@ -70,16 +78,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			try {
 				String sql = "UPDATE Usuario SET presupuesto = ?, tiempo_disponible = ? WHERE nombre = ?";
 				Connection conn = ConnectionProvider.getConnection();
-			//Comenzar transaccion
 				PreparedStatement statement = conn.prepareStatement(sql);
 				statement.setInt(1, t.getPresupuesto());
 				statement.setDouble(2, t.getTiempoDisponible());
 				statement.setString(3, t.getNombre());
 				int rows = statement.executeUpdate();
-			
 				actualizarRelacionesConSugerencias(t.getNombre(),t.getItinerario());
-			
-			//Fin de la transaccion
 				return rows;
 			} catch (Exception e) {
 				throw new SQLExceptionCreated(e);
@@ -103,7 +107,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 					statement.setString(2, nombreAtraccion);
 					statement.executeUpdate();
 				}
-				
 			}
 			sql = "INSERT INTO Tiene_Promociones(usuario,promocion) VALUES (?,?)";
 			statement = conn.prepareStatement(sql);
@@ -153,9 +156,18 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		}
 	}
 
+	@Override
 	public int delete(Usuario t) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			String sql = "DELETE FROM Usuario WHERE nombre = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, t.getNombre());
+			int rows = statement.executeUpdate();
+			return rows;
+		} catch (Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
 	}
 
 	private Usuario toUsuario(ResultSet resultados) {
@@ -170,6 +182,33 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			return new Usuario(resultados.getString(1),resultados.getInt(2),resultados.getDouble(3),TipoAtraccion.valueOf(resultados.getString(4)),sugerenciasAceptadas);
 		} catch (Exception e) {
 			throw new SQLExceptionCreated(e);
+		}
+	}
+
+	@Override
+	public void updateUsuariosItinerariosAtracciones(List<Usuario> usuarios, List<Atraccion> atracciones) {
+		AtraccionDAO atraccionDao = DAOFactory.getAtraccionDAO();
+		Connection conn = null;
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			for(Usuario unUsuario : usuarios) {
+				update(unUsuario);
+			}for(Atraccion unaAtraccion : atracciones) {
+				atraccionDao.update(unaAtraccion);
+			}
+		}catch (Exception e) {
+			   try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

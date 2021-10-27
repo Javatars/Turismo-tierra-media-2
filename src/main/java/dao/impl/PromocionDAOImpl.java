@@ -20,6 +20,7 @@ import model.TipoAtraccion;
 
 public class PromocionDAOImpl implements PromocionDAO {
 
+	@Override
 	public List<Promocion> findAll() {
 		try {
 			String sql1 = "SELECT pa.*,p.tipo_atraccion FROM Promocion_Absoluta pa JOIN Promocion p ON p.nombre = pa.nombre";
@@ -89,21 +90,19 @@ public class PromocionDAOImpl implements PromocionDAO {
 		}
 	}
 
-	public int countAll() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	@Override
 	public int insert(Promocion t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public int update(Promocion t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public int delete(Promocion t) {
 		// TODO Auto-generated method stub
 		return 0;

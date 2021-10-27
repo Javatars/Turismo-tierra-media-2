@@ -46,7 +46,6 @@ public class App {
 
 	private static void ejecutar() {
 		UsuarioDAO usuarioDao = DAOFactory.getUsuarioDAO(); 
-		AtraccionDAO atraccionDao = DAOFactory.getAtraccionDAO();
 		DecimalFormat formato = new DecimalFormat();
 		formato.setMaximumFractionDigits(2);
 		for(Usuario unUsuario : usuarios) {
@@ -63,11 +62,7 @@ public class App {
 			System.out.println("-----------------------");
 		}
 		System.out.println("Se actualizan los datos en la DB");
-		for(Usuario unUsuario : usuarios) {
-			usuarioDao.update(unUsuario);
-		}for(Atraccion unaAtraccion : atracciones) {
-			atraccionDao.update(unaAtraccion);
-		}
+		usuarioDao.updateUsuariosItinerariosAtracciones(usuarios, atracciones);
 		System.out.println("Fin del programa");
 	}
 
