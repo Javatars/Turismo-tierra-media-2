@@ -10,7 +10,11 @@ public class PromocionPorcentual extends Promocion {
 		super(nombre, tipo, atracciones);
 		this.porcentajeDescuento = porcentajeDescuento;
 	}
-	
+
+	public double getPorcentajeDescuento() {
+		return porcentajeDescuento;
+	}
+
 	@Override
 	public int costoTotal() {
 		return (int) (super.costoTotal() - super.costoTotal() * this.porcentajeDescuento);

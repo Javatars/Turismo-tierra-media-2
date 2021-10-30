@@ -89,4 +89,8 @@ public abstract class Promocion implements Sugerible {
 				+ formato.format(this.tiempoTotal()) + " horas." + "\n";
 		return resumen;
 	}
+
+	public List<Atraccion> getAtracciones(){
+		return atracciones;
+	}
 }

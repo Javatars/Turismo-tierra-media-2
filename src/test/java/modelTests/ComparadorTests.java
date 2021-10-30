@@ -1,10 +1,17 @@
-package model;
+package modelTests;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import model.Atraccion;
+import model.ComparadorDeSugerencias;
+import model.Promocion;
+import model.PromocionAbsoluta;
+import model.Sugerible;
+import model.TipoAtraccion;
 
 public class ComparadorTests {
 	ArrayList<Sugerible> lista;

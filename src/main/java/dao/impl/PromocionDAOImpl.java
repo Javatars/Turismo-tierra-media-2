@@ -92,20 +92,129 @@ public class PromocionDAOImpl implements PromocionDAO {
 
 	@Override
 	public int insert(Promocion t) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			String sql = "INSERT INTO Promocion(nombre,tipo_atraccion) VALUES (?,?)";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, t.getNombre());
+			statement.setString(2, t.getTipo().name());
+			int rows = statement.executeUpdate();
+			insertTipoPromocion(t);
+			insertAtraccionPromocion(t);
+			return rows;
+		}catch(Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
+	}
+
+	private void insertAtraccionPromocion(Promocion t) {
+		List<String> nombresAtracciones = new ArrayList<String>();
+		for(Atraccion unaAtraccion : t.getAtracciones()) {
+			nombresAtracciones.add(unaAtraccion.getNombre());
+		}
+		try {
+			String sql = "INSERT INTO Lo_Puede_Contener(atraccion,promocion) VALUES (?,?)";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			for(String nombreAtaccion : nombresAtracciones) {
+				statement.setString(1, nombreAtaccion);
+				statement.setString(2, t.getNombre());
+				statement.executeUpdate();
+			}
+		}catch(Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
+	}
+
+	private void insertTipoPromocion(Promocion p) {
+		try {
+			String sql = "";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = null;
+			if(p instanceof PromocionAbsoluta) {
+				PromocionAbsoluta pa = (PromocionAbsoluta) p;
+				sql = "INSERT INTO PromocionAbsoluta(nombre,costo_final) VALUES (?,?)";
+				statement = conn.prepareStatement(sql);
+				statement.setString(1, pa.getNombre());
+				statement.setInt(2, pa.costoTotal());
+				statement.executeUpdate();
+			} if(p instanceof PromocionPorcentual) {
+				PromocionPorcentual pp = (PromocionPorcentual) p;
+				sql = "INSERT INTO PromocionPorcentual(nombre,porcentaje_descuento) VALUES (?,?)";
+				statement = conn.prepareStatement(sql);
+				statement.setString(1, pp.getNombre());
+				statement.setDouble(2, pp.getPorcentajeDescuento());
+				statement.executeUpdate();
+			}if(p instanceof PromocionAxB) {
+				PromocionAxB pab = (PromocionAxB) p;
+				sql = "INSERT INTO PromocionAxB(nombre,atraccion_gratis) VALUES (?,?)";
+				statement = conn.prepareStatement(sql);
+				statement.setString(1, pab.getNombre());
+				String nombreAtraccionGratis = pab.getAtraccionGratis().getNombre();
+				statement.setString(2, nombreAtraccionGratis);
+				statement.executeUpdate();
+			}
+		}catch(Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
 	}
 
 	@Override
 	public int update(Promocion t) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			String sql = "UPDATE Promocion SET tipo_atraccion = ? WHERE nombre = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, t.getTipo().name());
+			int rows = statement.executeUpdate();
+			return rows;
+		}catch(Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
 	}
 
 	@Override
 	public int delete(Promocion t) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			deleteTipoPromocion(t);
+			String sql = "DELETE FROM Promocion WHERE nombre = ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, t.getNombre());
+			int rows = statement.executeUpdate();
+			return rows;
+		} catch (Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
+	}
+
+	private void deleteTipoPromocion(Promocion t) {
+		try {
+			String sql = "";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = null;
+			if(t instanceof PromocionAbsoluta) {
+				sql = "DELETE FROM PromocionAbsoluta WHERE nombre = ?";
+				conn = ConnectionProvider.getConnection();
+				statement = conn.prepareStatement(sql);
+				statement.setString(1, t.getNombre());
+				statement.executeUpdate();
+			}if(t instanceof PromocionPorcentual) {
+				sql = "DELETE FROM PromocionPorcentual WHERE nombre = ?";
+				conn = ConnectionProvider.getConnection();
+				statement = conn.prepareStatement(sql);
+				statement.setString(1, t.getNombre());
+				statement.executeUpdate();
+			}if(t instanceof PromocionAxB) {
+				sql = "DELETE FROM PromocionAxB WHERE nombre = ?";
+				conn = ConnectionProvider.getConnection();
+				statement = conn.prepareStatement(sql);
+				statement.setString(1, t.getNombre());
+				statement.executeUpdate();
+			}
+		} catch (Exception e) {
+			throw new SQLExceptionCreated(e);
+		}
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package model;
+package modelTests;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
@@ -17,6 +17,7 @@ public class PromocionesTests {
 	ArrayList<Atraccion> atracciones;
 	ArrayList<Atraccion> atracciones2;
 	ArrayList<Atraccion> atracciones3;
+	Atraccion atraccion1;
 	Sugerible promocion1;
 	Sugerible promocion2;
 	Sugerible promocion3;
@@ -36,17 +37,19 @@ public class PromocionesTests {
 		atracciones2.add(new Atraccion("Minas Tirith", 5, 2.5, 2, TipoAtraccion.AVENTURA));
 		atracciones2.add(new Atraccion("Mordor",25,3,3,TipoAtraccion.AVENTURA));
 
+		atraccion1 =  new Atraccion("Bosque de Fangorn",25,3,3,TipoAtraccion.AVENTURA);
 		atracciones3 = new ArrayList<Atraccion>();
 		atracciones3.add(new Atraccion("Bosque Negro", 10, 2, 2, TipoAtraccion.AVENTURA));
 		atracciones3.add(new Atraccion("Minas Tirith", 5, 2.5, 2, TipoAtraccion.AVENTURA));
 		atracciones3.add(new Atraccion("Mordor",25,3,3,TipoAtraccion.AVENTURA));
+		atracciones3.add(atraccion1);
 
 		u1 = new Usuario("Eowyn", 10, 8, TipoAtraccion.AVENTURA, new ArrayList<Sugerible>());
 		u2 = new Usuario("Sauron", 10, 8, TipoAtraccion.AVENTURA, new ArrayList<Sugerible>());
 
 		promocion1 = new PromocionAbsoluta("aventura", TipoAtraccion.AVENTURA, atracciones, 20);
 		promocion2 = new PromocionPorcentual("aventura 2", TipoAtraccion.AVENTURA, atracciones2, 0.3);
-		promocion3 = new PromocionAxB("aventura 3", TipoAtraccion.AVENTURA,atracciones3, new Atraccion("Bosque de Fangorn",25,3,3,TipoAtraccion.AVENTURA));
+		promocion3 = new PromocionAxB("aventura 3", TipoAtraccion.AVENTURA,atracciones3,atraccion1);
 	}
 
 	@After
@@ -57,6 +60,7 @@ public class PromocionesTests {
 		promocion1 = null;
 		promocion2 = null;
 		promocion3 = null;
+		atraccion1 = null;
 		u1 = null;
 		u2 = null;
 	}
